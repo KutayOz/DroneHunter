@@ -83,6 +83,9 @@ Datasets/
 temp/
 tmp/
 
+# Fix scripts (user-specific)
+fix_gpu.ps1
+
 # OS
 Thumbs.db
 .DS_Store

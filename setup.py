@@ -126,6 +126,45 @@ def get_python_executable():
         return Path(venv_name) / "bin" / "python"
 
 
+def install_pytorch_with_cuda():
+    """Install PyTorch with CUDA support."""
+    print_header("Installing PyTorch with CUDA Support")
+    
+    python_exe = get_python_executable()
+    
+    print_info("Installing PyTorch with CUDA 11.8...")
+    print_info("This ensures GPU acceleration for training")
+    print_info("Download size: ~2-3 GB, this may take 5-10 minutes...")
+    print()
+    
+    try:
+        # Install PyTorch with CUDA support
+        process = subprocess.Popen(
+            [str(python_exe), "-m", "pip", "install", "torch", "torchvision", "torchaudio", 
+             "--index-url", "https://download.pytorch.org/whl/cu118"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True
+        )
+        
+        # Print output in real-time
+        for line in process.stdout:
+            print(f"  {line.strip()}")
+        
+        process.wait()
+        
+        if process.returncode == 0:
+            print_success("PyTorch with CUDA installed successfully")
+            return True
+        else:
+            print_error("PyTorch installation failed")
+            return False
+            
+    except Exception as e:
+        print_error(f"Failed to install PyTorch: {e}")
+        return False
+
+
 def install_dependencies():
     """Install required dependencies."""
     print_header("Installing Dependencies")
@@ -145,14 +184,22 @@ def install_dependencies():
     except subprocess.CalledProcessError as e:
         print_error(f"Failed to upgrade pip: {e}")
     
-    # Install requirements
+    # Install PyTorch with CUDA first (most important)
+    if not install_pytorch_with_cuda():
+        print_error("PyTorch installation failed")
+        print_info("You may need to install it manually:")
+        print_info("  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118")
+        return False
+    
+    # Install other requirements
     requirements_file = Path("requirements.txt")
     
     if not requirements_file.exists():
         print_error("requirements.txt not found!")
         return False
     
-    print_info("Installing packages from requirements.txt...")
+    print()
+    print_info("Installing other packages from requirements.txt...")
     print_info("This may take several minutes...")
     
     try:
@@ -199,7 +246,7 @@ def verify_installation():
     
     python_exe = get_python_executable()
     
-    # Test imports
+    # Test imports and CUDA
     test_script = """
 import sys
 try:
@@ -207,7 +254,18 @@ try:
     import ultralytics
     import cv2
     import yaml
-    print("SUCCESS: All required packages imported")
+    print("✓ All required packages imported")
+    print()
+    print("PyTorch Information:")
+    print(f"  Version: {torch.__version__}")
+    print(f"  CUDA Available: {torch.cuda.is_available()}")
+    if torch.cuda.is_available():
+        print(f"  CUDA Version: {torch.version.cuda}")
+        print(f"  GPU Count: {torch.cuda.device_count()}")
+        for i in range(torch.cuda.device_count()):
+            print(f"  GPU {i}: {torch.cuda.get_device_name(i)}")
+    else:
+        print("  WARNING: CUDA not available - training will be slow!")
     sys.exit(0)
 except ImportError as e:
     print(f"ERROR: Import failed - {e}")
@@ -222,12 +280,23 @@ except ImportError as e:
             timeout=30
         )
         
+        print(result.stdout)
+        
         if result.returncode == 0:
-            print_success("All required packages verified")
+            print_success("Installation verified successfully")
+            
+            # Check if CUDA is available
+            if "CUDA Available: True" in result.stdout:
+                print_success("GPU acceleration is ready!")
+            else:
+                print()
+                print("⚠" + " " * 2 + "WARNING: GPU not detected")
+                print("→ Training will be very slow without GPU")
+                print("→ Check GPU drivers: https://www.nvidia.com/Download/index.aspx")
+            
             return True
         else:
             print_error("Package verification failed")
-            print(result.stdout)
             print(result.stderr)
             return False
             

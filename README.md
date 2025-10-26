@@ -51,11 +51,12 @@ python3 setup.py
 
 The setup script will:
 - ✅ Create a virtual environment (`venv312`)
-- ✅ Install all dependencies
-- ✅ Verify the installation
+- ✅ Install PyTorch with CUDA 11.8 support (for GPU acceleration)
+- ✅ Install all other dependencies
+- ✅ Verify the installation and GPU availability
 - ✅ Guide you through next steps
 
-**⏱️ Takes ~5-10 minutes** depending on your internet speed.
+**⏱️ Takes ~10-15 minutes** depending on your internet speed (PyTorch is ~2-3 GB).
 
 ### 3. Activate Virtual Environment
 
