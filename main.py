@@ -39,7 +39,7 @@ def check_virtual_environment():
         print("Quick Setup:")
         print("-" * 60)
         
-        if not Path("drone_det_env").exists():
+        if not Path("venv312").exists():
             print("1. Run setup to create virtual environment:")
             if platform.system() == "Windows":
                 print("   python setup.py")
@@ -51,9 +51,9 @@ def check_virtual_environment():
             print("1. Virtual environment exists, just activate it:")
         
         if platform.system() == "Windows":
-            print("   .\\drone_det_env\\Scripts\\Activate.ps1")
+            print("   .\\venv312\\Scripts\\Activate.ps1")
         else:
-            print("   source drone_det_env/bin/activate")
+            print("   source venv312/bin/activate")
         
         print("\n2. Then run this command again")
         print("=" * 60 + "\n")

@@ -15,7 +15,7 @@ A comprehensive drone detection system built with YOLOv11 and Python, featuring 
 
 ## 📋 Requirements
 
-- Python 3.8+
+- Python 3.12 (required)
 - CUDA-compatible GPU (recommended)
 - Windows 10/11 (tested on Windows 10)
 - 8GB+ RAM (16GB+ recommended)
@@ -50,7 +50,7 @@ python3 setup.py
 ```
 
 The setup script will:
-- ✅ Create a virtual environment (`drone_det_env`)
+- ✅ Create a virtual environment (`venv312`)
 - ✅ Install all dependencies
 - ✅ Verify the installation
 - ✅ Guide you through next steps
@@ -63,25 +63,32 @@ The setup script will:
 
 **Windows:**
 ```powershell
-.\drone_det_env\Scripts\Activate.ps1
+.\venv312\Scripts\Activate.ps1
 ```
 
 **Linux/macOS:**
 ```bash
-source drone_det_env/bin/activate
+source venv312/bin/activate
 ```
 
-You'll see `(drone_det_env)` in your prompt when activated.
+You'll see `(venv312)` in your prompt when activated.
 
 > **💡 Tip**: The main.py script will warn you if you forget to activate it!
 
 ### 4. Dataset Preparation
 
-The system is pre-configured to use the largest available dataset (`drone.v1i.yolov11` with 19,752 training images). The dataset structure should be:
+> **📦 Note**: Datasets are not included in the repository due to their large size. You need to download and prepare your own drone detection dataset.
+
+**Download Dataset:**
+- [Roboflow Drone Detection Dataset](https://universe.roboflow.com/search?q=drone)
+- [Kaggle Drone Datasets](https://www.kaggle.com/search?q=drone+detection)
+- Or use your own custom dataset
+
+**Dataset Structure:**
 
 ```
 Datasets/
-├── drone.v1i.yolov11/
+├── drone.v1i.yolov11/          # Your dataset name
 │   ├── train/
 │   │   ├── images/
 │   │   └── labels/
@@ -91,6 +98,11 @@ Datasets/
 │   └── test/
 │       ├── images/
 │       └── labels/
+```
+
+**Prepare Dataset:**
+```bash
+python main.py --mode prepare
 ```
 
 ### 3. Run the System
@@ -304,7 +316,7 @@ The system provides comprehensive monitoring:
 
 4. **GUI Not Starting**
    - Install customtkinter: `pip install customtkinter`
-   - Check Python version (3.8+)
+   - Check Python version (3.12)
    - Update graphics drivers
 
 ### Log Files

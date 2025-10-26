@@ -167,7 +167,7 @@ Every time you come back to work on the project:
 ## 🐛 Troubleshooting
 
 ### "python: command not found"
-**Fix**: Install Python 3.8+ from [python.org](https://www.python.org/)
+**Fix**: Install Python 3.12 from [python.org](https://www.python.org/downloads/)
 
 ### "Cannot activate virtual environment" (Windows)
 **Fix**: Enable script execution:

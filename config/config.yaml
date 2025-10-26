@@ -1,0 +1,118 @@
+# Drone Detection System Configuration
+# This file contains all the configuration parameters for the drone detection system
+
+# Dataset Configuration
+dataset:
+  # Primary dataset to use (choose the largest one with most samples)
+  primary_dataset: "Datasets/drone.v1i.yolov11"
+  # Alternative datasets for comparison
+  alternative_datasets:
+    - "Datasets/drone detection.v2i.yolov11"
+    - "Datasets/drone detection.v3i.yolov11"
+    - "Datasets/Drone detection.v1i.yolov11"
+  
+  # Data augmentation settings
+  augmentation:
+    enabled: true
+    hsv_h: 0.015  # Image HSV-Hue augmentation (fraction)
+    hsv_s: 0.7    # Image HSV-Saturation augmentation (fraction)
+    hsv_v: 0.4    # Image HSV-Value augmentation (fraction)
+    degrees: 0.0  # Image rotation (+/- deg)
+    translate: 0.1  # Image translation (+/- fraction)
+    scale: 0.5    # Image scale (+/- gain)
+    shear: 0.0    # Image shear (+/- deg)
+    perspective: 0.0  # Image perspective (+/- fraction), range 0-0.001
+    flipud: 0.0   # Image flip up-down (probability)
+    fliplr: 0.5   # Image flip left-right (probability)
+    mosaic: 1.0   # Image mosaic (probability)
+    mixup: 0.0    # Image mixup (probability)
+
+# Model Configuration
+model:
+  # YOLOv11 model size (n, s, m, l, x)
+  size: "m"  # medium size for good balance of speed and accuracy
+  
+  # Training parameters
+  epochs: 100
+  batch_size: 8  # Reduced from 16 to avoid CUDA memory issues
+  imgsz: 640  # Image size for training
+  device: "0"  # GPU device (0 for first GPU, "cpu" for CPU)
+  
+  # Optimization parameters
+  optimizer: "AdamW"
+  lr0: 0.01  # Initial learning rate
+  lrf: 0.01  # Final learning rate (lr0 * lrf)
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.1
+  
+  # Loss function parameters
+  box: 7.5  # Box loss gain
+  cls: 0.5  # Classification loss gain
+  dfl: 1.5  # DFL loss gain
+  
+  # Validation parameters
+  val: true
+  plots: true
+  save_period: 10  # Save checkpoint every N epochs
+
+# Training Configuration
+training:
+  # Paths
+  project: "runs/train"
+  name: "drone_detection"
+  
+  # Monitoring
+  wandb_enabled: false  # Set to true to enable Weights & Biases logging
+  tensorboard_enabled: true
+  
+  # Early stopping
+  patience: 50  # Early stopping patience
+  min_delta: 0.001
+  
+  # Resume training
+  resume: false
+  pretrained: true  # Use pretrained weights
+
+# Inference Configuration
+inference:
+  # Detection parameters
+  conf_threshold: 0.25  # Confidence threshold
+  iou_threshold: 0.45   # IoU threshold for NMS
+  max_det: 1000         # Maximum number of detections
+  
+  # Visualization
+  line_thickness: 3
+  font_size: 1.0
+  show_labels: true
+  show_conf: true
+  
+  # Output settings
+  save_txt: false
+  save_conf: false
+  save_crop: false
+
+# GUI Configuration
+gui:
+  window_title: "Drone Detection System"
+  window_size: "1200x800"
+  theme: "dark"  # dark, light, system
+  
+  # Training monitoring
+  update_interval: 1000  # Update interval in milliseconds
+  max_log_lines: 1000    # Maximum lines in log display
+  
+  # Real-time detection
+  camera_index: 0        # Default camera index
+  detection_fps: 30      # Target FPS for real-time detection
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {name}:{function}:{line} - {message}"
+  file: "logs/drone_detection.log"
+  max_size: "10 MB"
+  rotation: "1 day"
+  retention: "7 days"

@@ -40,18 +40,25 @@ def check_python_version():
     version = sys.version_info
     print_info(f"Python {version.major}.{version.minor}.{version.micro}")
     
-    if version.major < 3 or (version.major == 3 and version.minor < 8):
-        print_error("Python 3.8 or higher is required!")
-        print_info("Please install Python 3.8+ from https://www.python.org/")
-        return False
+    # Check for Python 3.12 specifically
+    if version.major != 3 or version.minor != 12:
+        print_error("Python 3.12 is required!")
+        print_info("This project is tested and optimized for Python 3.12")
+        print_info("Please install Python 3.12 from https://www.python.org/downloads/")
+        print_info("For older Python versions, compatibility is not guaranteed")
+        
+        response = input("Continue anyway? (not recommended) [y/N]: ").strip().lower()
+        if response != 'y':
+            print_error("Setup cancelled. Please install Python 3.12")
+            return False
     
-    print_success("Python version is compatible")
+    print_success("Python 3.12 detected - perfect!")
     return True
 
 
 def get_venv_name():
     """Get the virtual environment name."""
-    return "drone_det_env"
+    return "venv312"
 
 
 def get_venv_path():
@@ -90,11 +97,19 @@ def create_virtual_environment():
             print_info("Using existing virtual environment")
             return True
     
-    print_info(f"Creating virtual environment '{venv_name}'...")
+    print_info(f"Creating virtual environment '{venv_name}' with Python 3.12...")
     
     try:
+        # Ensure we're using Python 3.12
+        if sys.version_info.minor != 12:
+            print_error(f"Current Python version is {sys.version_info.major}.{sys.version_info.minor}")
+            print_error("Virtual environment must be created with Python 3.12")
+            print_info("Please run this script with Python 3.12: python3.12 setup.py")
+            return False
+        
+        # Create venv with Python 3.12
         subprocess.run([sys.executable, "-m", "venv", venv_name], check=True)
-        print_success(f"Virtual environment '{venv_name}' created successfully")
+        print_success(f"Virtual environment '{venv_name}' created successfully with Python 3.12")
         return True
     except subprocess.CalledProcessError as e:
         print_error(f"Failed to create virtual environment: {e}")

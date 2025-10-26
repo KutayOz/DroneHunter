@@ -1,6 +1,7 @@
 # Virtual Environments
 drone_det_env/
 venv/
+venv312/
 env/
 ENV/
 .venv/
@@ -67,8 +68,8 @@ runs/
 models/*.pt
 !models/.gitkeep
 
-# Datasets (optional - uncomment if you don't want to version datasets)
-# Datasets/
+# Datasets (excluded due to large size)
+Datasets/
 
 # Model weights (large files)
 *.pt

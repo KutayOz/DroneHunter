@@ -35,7 +35,7 @@ python3 setup.py
 
 The automatic setup script (`setup.py`) will:
 
-1. ✅ Check your Python version (requires 3.8+)
+1. ✅ Check your Python version (requires 3.12)
 2. ✅ Create a virtual environment (`drone_det_env`)
 3. ✅ Upgrade pip to the latest version
 4. ✅ Install all required dependencies from `requirements.txt`
@@ -50,7 +50,7 @@ The automatic setup script (`setup.py`) will:
 
 Before running setup, make sure you have:
 
-- **Python 3.8 or higher** installed
+- **Python 3.12** installed
   - Windows: Download from [python.org](https://www.python.org/)
   - Linux: `sudo apt install python3 python3-pip python3-venv`
   - macOS: `brew install python3`
@@ -179,7 +179,7 @@ drone-detection/
 ## ❓ Common Issues
 
 ### Issue: "python: command not found"
-**Solution**: Install Python 3.8+ from python.org
+**Solution**: Install Python 3.12 from python.org
 
 ### Issue: "Permission denied" on Linux/macOS
 **Solution**: 
@@ -267,7 +267,7 @@ If you encounter issues:
 
 ## ✅ Checklist for New Users
 
-- [ ] Python 3.8+ installed
+- [ ] Python 3.12 installed
 - [ ] Repository cloned from git
 - [ ] Ran `setup.py` (or `setup.bat`/`setup.sh`)
 - [ ] Virtual environment created successfully

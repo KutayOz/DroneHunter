@@ -7,18 +7,26 @@ echo "Drone Detection System - Quick Setup"
 echo "======================================"
 echo
 
-# Check if Python is installed
-if ! command -v python3 &> /dev/null; then
-    echo "ERROR: Python 3 is not installed"
-    echo "Please install Python 3.8+ using your package manager"
-    exit 1
+# Check if Python 3.12 is installed
+if ! command -v python3.12 &> /dev/null; then
+    echo "ERROR: Python 3.12 is not installed"
+    echo "Trying with python3..."
+    if ! command -v python3 &> /dev/null; then
+        echo "ERROR: Python 3 is not installed"
+        echo "Please install Python 3.12 from https://www.python.org/downloads/"
+        exit 1
+    fi
+    PYTHON_CMD=python3
+else
+    PYTHON_CMD=python3.12
 fi
 
 # Check Python version
-python3 --version
+$PYTHON_CMD --version
+echo
 
 # Run the setup script
-python3 setup.py
+$PYTHON_CMD setup.py
 
 if [ $? -ne 0 ]; then
     echo
