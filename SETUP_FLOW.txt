@@ -1,0 +1,243 @@
+================================================================================
+                    DRONE DETECTION SYSTEM - SETUP FLOW
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          NEW USER CLONES FROM GIT                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      │ git clone <repo-url>
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         PROJECT FILES DOWNLOADED                            │
+│                                                                             │
+│  ├── src/                     ✅ Code files                                 │
+│  ├── config/                  ✅ Configuration                              │
+│  ├── setup.py                 ✅ Setup script                               │
+│  ├── setup.bat/sh             ✅ Setup wrappers                             │
+│  ├── requirements.txt         ✅ Dependencies                               │
+│  ├── .gitignore               ✅ Git ignore rules                           │
+│  ├── SETUP_GUIDE.md           ✅ Documentation                              │
+│  └── models/.gitkeep          ✅ Directory structure                        │
+│                                                                             │
+│  ⚠️  NOT INCLUDED (user-specific):                                          │
+│  ❌ drone_det_env/            (each user creates their own)                 │
+│  ❌ data.yaml                 (generated for each user)                     │
+│  ❌ runs/                     (training outputs)                            │
+│  ❌ *.pt                      (model weights)                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         USER RUNS: python setup.py                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+        ┌─────────────────────────────┴─────────────────────────────┐
+        │                                                           │
+        ▼                                                           ▼
+┌───────────────────┐                                     ┌───────────────────┐
+│ Check Python 3.8+ │────✓────┐                          │  Create Virtual   │
+└───────────────────┘         │                          │   Environment     │
+                              │                          └───────────────────┘
+        │                     │                                    │
+        │ ✗ (too old)         │                                    │
+        ▼                     │                                    ▼
+┌───────────────────┐         │                          ┌───────────────────┐
+│   Show Error      │         │                          │ drone_det_env/    │
+│  Install Python   │         │                          │   Scripts/        │
+│      3.8+         │         │                          │   Lib/            │
+└───────────────────┘         │                          │   pyvenv.cfg      │
+                              │                          └───────────────────┘
+                              │                                    │
+                              │                                    │
+                              │                                    ▼
+                              │                          ┌───────────────────┐
+                              │                          │  Upgrade pip      │
+                              │                          └───────────────────┘
+                              │                                    │
+                              │                                    │
+                              │                                    ▼
+                              │                          ┌───────────────────┐
+                              │                          │ Install all deps  │
+                              │                          │ from              │
+                              │                          │ requirements.txt  │
+                              │                          └───────────────────┘
+                              │                                    │
+                              │                                    │
+                              │                                    ▼
+                              │                          ┌───────────────────┐
+                              │                          │ Verify imports:   │
+                              │                          │  - torch          │
+                              │                          │  - ultralytics    │
+                              │                          │  - cv2            │
+                              │                          │  - yaml           │
+                              │                          └───────────────────┘
+                              │                                    │
+                              │                                    │
+                              └────────────────────────────────────┘
+                                                         │
+                                                         ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          ✅ SETUP COMPLETE                                  │
+│                                                                             │
+│  Next Steps:                                                                │
+│  1. Activate venv: .\drone_det_env\Scripts\Activate.ps1                    │
+│  2. Configure dataset in config/config.yaml                                │
+│  3. Run: python main.py --mode prepare                                     │
+│  4. Run: python main.py --mode train                                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      USER ACTIVATES VIRTUAL ENVIRONMENT                     │
+│                                                                             │
+│  Windows:    .\drone_det_env\Scripts\Activate.ps1                          │
+│  Linux/Mac:  source drone_det_env/bin/activate                             │
+│                                                                             │
+│  Terminal shows: (drone_det_env) C:\...\drone-detection>                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         USER RUNS: python main.py                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+        ┌─────────────────────────────┴─────────────────────────────┐
+        │                                                           │
+        ▼                                                           ▼
+┌───────────────────┐                                     ┌───────────────────┐
+│ main.py checks if │                                     │   Venv is         │
+│ venv is active    │────✓────────────────────────────────│   activated       │
+└───────────────────┘                                     └───────────────────┘
+        │                                                           │
+        │ ✗ (not in venv)                                          │
+        ▼                                                           │
+┌───────────────────┐                                               │
+│  Show warning:    │                                               │
+│  "Please activate │                                               │
+│   virtual env"    │                                               │
+│  + instructions   │                                               │
+└───────────────────┘                                               │
+        │                                                           │
+        │ User chooses: Continue anyway? [y/N]                      │
+        │                                                           │
+        │ N -> Exit                                                 │
+        │ Y -> Continue (not recommended)                           │
+        │                                                           │
+        └───────────────────────────────────────────────────────────┘
+                                      │
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        SYSTEM RUNS NORMALLY                                 │
+│                                                                             │
+│  Available modes:                                                           │
+│  - prepare:  Prepare and validate dataset                                  │
+│  - train:    Train the model                                               │
+│  - evaluate: Evaluate trained model                                        │
+│  - detect:   Detect drones in images/videos                                │
+│  - gui:      Launch graphical interface                                    │
+│  - info:     Show system information                                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+================================================================================
+                              KEY FEATURES
+================================================================================
+
+1. AUTOMATIC VENV CREATION
+   - Each user gets their own virtual environment
+   - No path conflicts between users
+   - Platform-independent setup
+
+2. ONE-COMMAND INSTALL
+   - python setup.py installs everything
+   - No manual dependency management
+   - Verifies installation automatically
+
+3. SMART MAIN SCRIPT
+   - Checks if venv is activated
+   - Warns user if running without venv
+   - Provides platform-specific guidance
+
+4. GIT-FRIENDLY
+   - .gitignore excludes user-specific files
+   - Only code and docs in repository
+   - No large files or local paths
+
+5. CROSS-PLATFORM
+   - Works on Windows, Linux, macOS
+   - Platform-specific activation commands
+   - Automatic OS detection
+
+================================================================================
+                         DAILY WORKFLOW (AFTER SETUP)
+================================================================================
+
+Every time user works on project:
+
+1. Open terminal in project directory
+   └─> cd drone-detection
+
+2. Activate virtual environment
+   └─> Windows:    .\drone_det_env\Scripts\Activate.ps1
+   └─> Linux/Mac:  source drone_det_env/bin/activate
+
+3. Work on project
+   └─> python main.py --mode train
+   └─> python main.py --mode gui
+   └─> python main.py --mode evaluate --model runs/.../best.pt
+
+4. When done (optional)
+   └─> deactivate
+
+
+================================================================================
+                        TEAM COLLABORATION WORKFLOW
+================================================================================
+
+Developer adds feature:
+  1. git pull origin main
+  2. Activate venv
+  3. Make changes
+  4. Test locally
+  5. git add .
+  6. git commit -m "Added feature X"
+  7. git push origin main
+
+Team member gets update:
+  1. git pull origin main
+  2. Activate venv
+  3. (If requirements.txt changed): pip install -r requirements.txt --upgrade
+  4. Continue working
+
+
+================================================================================
+                               TROUBLESHOOTING
+================================================================================
+
+Problem: "python: command not found"
+Solution: Install Python 3.8+ from python.org
+
+Problem: "Cannot activate venv" (Windows)
+Solution: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+Problem: "Import errors" when running
+Solution: Make sure venv is activated (see prompt for (drone_det_env))
+
+Problem: Setup failed to install packages
+Solution: Manually run: pip install -r requirements.txt
+
+Problem: CUDA out of memory
+Solution: Reduce batch_size in config/config.yaml
+
+Problem: NumPy MINGW warning
+Solution: pip uninstall numpy -y && pip install numpy --force-reinstall
+
+
+================================================================================
+
